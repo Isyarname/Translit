@@ -1,7 +1,7 @@
 # отдельные буквы
 letters = {
 	'а':'a', 'б':'b', 'в':'v', 'г':'g', 
-	'д':'d', 'е':'e', 'ё':'jo', 'ж':'ž', 'з':'z',
+	'д':'d', 'е':'je', 'ё':'jo', 'ж':'ž', 'з':'z',
 	'и':'i', 'й':'j', 'к':'k', 'л':'l', 'м':'m',
 	'н':'n', 'о':'o', 'п':'p', 'р':'r',
 	'с':'s', 'т':'t', 'у':'u', 'ф':'f',
@@ -14,8 +14,9 @@ letters = {
 exception_combinations = {
 	'ци':'cy', 'жи':'žy', 'ши':'šy',
 	'ться':'ca', 'тся':'ca',
-	'йе':'e', 'йё':'jo', 'йя':'ja', 'йю':'ju',
-	'ье':'e', 'ьё':'jo', 'ья':'ja', 'ью':'ju'
+	'йе':'je', 'йё':'jo', 'йя':'ja', 'йю':'ju',
+	'ье':'je', 'ьё':'jo', 'ья':'ja', 'ью':'ju',
+	'ъе':'je', 'ъё':'jo', 'ъя':'ja', 'ъю':'ju'
 }
 
 # прочие правки
@@ -27,7 +28,7 @@ def paired_combinations():
 	iotated_vowels = {"е":"e", "я":"'a", "ю":"'u", "ё":"'o"}
 	return combine(paired_consonants, iotated_vowels)
 
-# буквосочетания с мягкими и твёрдыми согласными
+# буквосочетания с непарными мягкими и твёрдыми согласными
 def unpaired_combinations():
 	unpaired_consonants = {'ч':'č', 'щ':'ŝ', 'ж':'ž', 'ш':'š', 'ц':'c'}
 	vowels = {"е":"e", "я":"a", "ю":"u", "ё":"o", "и":"и"}
@@ -40,18 +41,13 @@ def combine(consonants, vowels):
 			combinations.update({cy_con+cy_vow:la_con+la_vow})
 	return combinations
 
-def cyrillic_to_latin(text, replace_queue):
-	for d in replace_queue:
+def cyrillic_to_latin(text, replacement_sequence):
+	for d in replacement_sequence:
 		for cy, la in d.items():
 			text = text.replace(cy, la)
 			text = text.replace(cy.capitalize(), la.capitalize())
 	return text
 
-p_comb = paired_combinations()
-u_comb = unpaired_combinations()
-replace_queue = (exception_combinations, u_comb, p_comb, other_edits, letters)
-
-text = '''Че́шский алфави́т (чеш. Česká abeceda) — вариант латиницы, который используется при написании на чешском языке. Основные принципы этого алфавита: «один звук — одна буква» и добавление диакритических знаков над буквами для обозначения звуков, далёких от латинского языка.
-Алфавиты некоторых других восточноевропейских языков (славянские, балтийские, эстонский) основаны на чешском алфавите, в котором убираются или добавляются символы в соответствии с потребностью в них в языке. Наиболее заметным отклонением от чешского является польский алфавит, который разрабатывался независимо.'''
-
-print(cyrillic_to_latin(text, replace_queue))
+replacement_sequence = (exception_combinations, unpaired_combinations(), paired_combinations(), other_edits, letters)
+text = input("Введите текст: ")
+print(cyrillic_to_latin(text, replacement_sequence))
