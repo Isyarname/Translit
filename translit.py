@@ -31,7 +31,7 @@ def paired_combinations():
 # буквосочетания с непарными мягкими и твёрдыми согласными
 def unpaired_combinations():
 	unpaired_consonants = {'ч':'č', 'щ':'ŝ', 'ж':'ž', 'ш':'š', 'ц':'c'}
-	vowels = {"е":"e", "я":"a", "ю":"u", "ё":"o", "и":"и"}
+	vowels = {"е":"e", "я":"a", "ю":"u", "ё":"o", "и":"i"}
 	return combine(unpaired_consonants, vowels)
 
 def combine(consonants, vowels):
