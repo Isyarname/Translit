@@ -1,15 +1,3 @@
-import json
-
-fileName = "dictionary.json"
-
-def read(fileName):
-	with open(fileName, "r", encoding = "UTF-8") as file:
-		return json.load(file)
-
-def write(fileName, data):
-	with open(fileName, "w", encoding = "UTF-8") as file:
-		json.dump(data, file)
-
 def combine(consonants, vowels, n):
 	combinations = {}
 	for ru_con, be_con in consonants:
@@ -44,9 +32,7 @@ def re(rules):
 	return nr
 
 rules = {'ться': 'ца', 'тся': 'цa', 
-'шь ': 'ш ', 'щь ': 'щ ', 'чь ': 'ч ', 'жь ': 'ж ', 'ць ': 'ц ', 
-'йе': 'йэ', 'йё': 'йо', 'йя': 'йа', 'йю': 'йу', 
-'ье': 'йэ', 'ьё': 'йо', 'ья': 'йа', 'ью': 'йу', 
+'шь ': 'ш ', 'щь ': 'щ ', 'чь ': 'ч ', 'жь ': 'ж ', 'ць ': 'ц ',  
 'ъе': 'йэ', 'ъё': 'йо', 'ъя': 'йа', 'ъю': 'йу',
 'тс': 'ц', 'зс': 'с', 'чш': 'тш', '':'9'}
 
@@ -59,7 +45,7 @@ rules9 = {'ться': 'ц9а', 'тся': 'ц9a',
 
 def irules():
 	vowels = ('а', 'у', 'е', 'ы', 'о', 'э', 'я', 'и', 'ю', 'ё')
-	iotated_vowels = (('ё','йо'), ('е','йэ'), ('я','йа'), ('ю', 'йу'), ('и','йи'))
+	iotated_vowels = (('ё','й9о'), ('е','й9э'), ('я','й9а'), ('ю', 'й9у'), ('и','й9и'))
 	d = {}
 	for v in vowels:
 		for i in iotated_vowels:
@@ -73,7 +59,7 @@ def tr(text, replacement_sequence):
 			text = text.replace(ru.capitalize(), be.capitalize())
 	return text
 
-replacement_sequence = (irules(), soft_combinations(1), hard_combinations(1), soft_combinations(2), hard_combinations(2), rules9, paired_combinations(), re(rules))
+replacement_sequence = (irules(), rules9, soft_combinations(1), hard_combinations(1), soft_combinations(2), hard_combinations(2), paired_combinations(), re(rules))
 test_text = '''зелёная щётка\n обливаться\n широкий подъезд\n МФЮА\n УдГУ\n июнь\n пью йогурт\n лучший
 съешь же ещё этих мягких французских булок, да выпей чаю\n'''
 
