@@ -11,9 +11,12 @@ def write(fileName, data):
 		json.dump(data, file)
 
 def display_dictionary(data):
-	for k, v in data.items():
-		print(k, v, "\n")
-
+	for key, value in data.items():
+		s = "\n"+key + " {"
+		for cy, la in value.items():
+			s += " "+cy+":"+la+" "
+		s += "}"
+		print(s)
 
 
 
@@ -71,5 +74,14 @@ for i in d:
 					if not cy in data["exception combinations"].keys():
 						data["mixed combinations"][cy] = la1+la2[1:]
 
-#write(fileName, data)
-display_dictionary(data)
+if input("Вы хотите изменить словарь? ").lower() == "да":
+	if input("Точно-точно? ").lower() == "да":
+		write(fileName, data)
+		display_dictionary(data)
+		print("Записано")
+	else:
+		print("Не записано")
+else:
+	print("Не записано")
+
+input("Нажмите Enter для закрытия")
