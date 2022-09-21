@@ -15,9 +15,9 @@ def combine(consonants, vowels, n):
 	for ru_con, be_con in consonants:
 		for ru_vow, be_vow in vowels:
 			if n == 1:
-				combinations[ru_con+ru_vow] = be_con+"9"+be_vow
+				combinations[ru_con+ru_vow] = "9"+be_con+"9"+be_vow+"9"
 			else:
-				combinations[be_con+be_vow] = ru_con+"9"+ru_vow
+				combinations[be_con+be_vow] = "9"+ru_con+"9"+ru_vow+"9"
 	return combinations
 
 def paired_combinations(n=1):
@@ -28,7 +28,7 @@ def paired_combinations(n=1):
 # буквосочетания с непарными мягкими согласными
 def soft_combinations(n):
 	soft_consonants = (('ч', 'ч'), ('щ', 'щ'))
-	vowels = (('а', 'я'), ('у', 'ю'), ('о', 'ё'), ('и','i'))
+	vowels = (('а', 'я'), ('у', 'ю'), ('о', 'ё'), ('и','и'))
 	return combine(soft_consonants, vowels, n)
 
 # буквосочетания с непарными твёрдыми согласными
@@ -57,6 +57,15 @@ rules9 = {'ться': 'ц9а', 'тся': 'ц9a',
 'ъе': 'й9э', 'ъё': 'й9о', 'ъя': 'й9а', 'ъю': 'й9у',
 'тс': 'ц', 'зс': 'с', 'чш': 'т9ш'}
 
+def irules():
+	vowels = ('а', 'у', 'е', 'ы', 'о', 'э', 'я', 'и', 'ю', 'ё')
+	iotated_vowels = (('ё','йо'), ('е','йэ'), ('я','йа'), ('ю', 'йу'), ('и','йи'))
+	d = {}
+	for v in vowels:
+		for i in iotated_vowels:
+			d[v+i[0]] = v+i[1]
+	return d
+
 def tr(text, replacement_sequence):
 	for replacement_pairs in replacement_sequence:
 		for ru, be in replacement_pairs.items():
@@ -64,7 +73,7 @@ def tr(text, replacement_sequence):
 			text = text.replace(ru.capitalize(), be.capitalize())
 	return text
 
-replacement_sequence = (soft_combinations(1), hard_combinations(1), soft_combinations(2), hard_combinations(2), rules9, paired_combinations(), re(rules))
+replacement_sequence = (irules(), soft_combinations(1), hard_combinations(1), soft_combinations(2), hard_combinations(2), rules9, paired_combinations(), re(rules))
 test_text = '''зелёная щётка\n обливаться\n широкий подъезд\n МФЮА\n УдГУ\n июнь\n пью йогурт\n лучший
 съешь же ещё этих мягких французских булок, да выпей чаю\n'''
 
